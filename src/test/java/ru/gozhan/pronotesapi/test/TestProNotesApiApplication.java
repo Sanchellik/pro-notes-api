@@ -1,6 +1,8 @@
-package ru.gozhan.pronotesapi;
+package ru.gozhan.pronotesapi.test;
 
 import org.springframework.boot.SpringApplication;
+import ru.gozhan.pronotesapi.ProNotesApiApplication;
+import ru.gozhan.pronotesapi.test.config.TestcontainersConfiguration;
 
 public class TestProNotesApiApplication {
 

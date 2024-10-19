@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://pro-notes-postgres:5432/${POSTGRES_DB}?currentSchema=${POSTGRES_SCHEMA}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}

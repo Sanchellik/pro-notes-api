@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: pro-notes-api
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    enabled: false

@@ -1,7 +1,8 @@
 plugins {
     java
-    id("org.springframework.boot") version "3.3.4"
-    id("io.spring.dependency-management") version "1.1.6"
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.dependency.management)
+    id("checkstyle")
 }
 
 group = "ru.gozhan"
@@ -26,24 +27,45 @@ repositories {
 dependencies {
 
     // Spring boot Starters
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+    implementation(libs.spring.boot.starter.web)
+    implementation(libs.spring.boot.starter.data.jdbc)
 
     // Database
-    runtimeOnly("org.postgresql:postgresql")
-    implementation("org.liquibase:liquibase-core")
+    runtimeOnly(libs.postgresql)
+    implementation(libs.liquibase.core)
 
     // Tools
-    compileOnly("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
+    compileOnly(libs.lombok)
+    annotationProcessor(libs.lombok)
+    compileOnly(libs.mapstruct)
+    annotationProcessor(libs.mapstruct.processor)
 
     // Testing
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.boot:spring-boot-testcontainers")
-    testImplementation("org.testcontainers:junit-jupiter")
-    testImplementation("org.testcontainers:postgresql")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.spring.boot.testcontainers)
+    testImplementation(libs.testcontainers.junit.jupiter)
+    testImplementation(libs.testcontainers.postgresql)
+    testRuntimeOnly(libs.junit.platform.launcher)
 
+    // Checkstyle
+    checkstyle(libs.checkstyle)
+
+}
+
+checkstyle {
+    toolVersion = libs.versions.checkstyle.get()
+    configFile = file("config/checkstyle/sun_checks.xml")
+    configProperties["org.checkstyle.sun.suppressionfilter.config"] =
+        file("config/checkstyle/checkstyle-suppressions.xml").path
+
+    isIgnoreFailures = false
+}
+
+tasks.withType<Checkstyle> {
+    reports {
+        xml.required.set(false)
+        html.required.set(true)
+    }
 }
 
 tasks.withType<Test> {

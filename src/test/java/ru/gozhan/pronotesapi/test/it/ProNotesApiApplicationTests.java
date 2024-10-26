@@ -1,10 +1,10 @@
-package ru.gozhan.pronotesapi.test;
+package ru.gozhan.pronotesapi.test.it;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import ru.gozhan.pronotesapi.test.config.TestcontainersConfiguration;
+import ru.gozhan.pronotesapi.test.it.config.TestcontainersConfiguration;
 
 @SpringBootTest
 @Import(TestcontainersConfiguration.class)

@@ -1,4 +1,4 @@
-package ru.gozhan.pronotesapi.test.config;
+package ru.gozhan.pronotesapi.test.it.config;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;

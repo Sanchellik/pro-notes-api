@@ -29,7 +29,7 @@ The project uses the following technologies:
 - Liquibase for database versioning
 - Docker & Docker Compose
 - Testcontainers for integration testing with PostgreSQL
-- Maven as the build tool
+- Gradle as the build tool
 
 
 
@@ -60,7 +60,7 @@ Before you start, ensure that the following dependencies are installed:
 
 **1. If run locally:**
 - Java 21
-- Maven
+- Gradle
 - PostgreSQL
 
 **2. If run using Docker:**

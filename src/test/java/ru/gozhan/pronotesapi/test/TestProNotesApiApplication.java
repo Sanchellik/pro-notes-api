@@ -6,8 +6,9 @@ import ru.gozhan.pronotesapi.test.it.config.TestcontainersConfiguration;
 
 public class TestProNotesApiApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.from(ProNotesApiApplication::main).with(TestcontainersConfiguration.class).run(args);
+    public static void main(final String[] args) {
+        SpringApplication.from(ProNotesApiApplication::main)
+                .with(TestcontainersConfiguration.class).run(args);
     }
 
 }

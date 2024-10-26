@@ -69,12 +69,12 @@ Before you start, ensure that the following dependencies are installed:
 ### Environment Variables
 You'll need a `.env` file for environment-specific configuration.
 There are environment variables:
-1. `HOST` - host of PostgreSQL database
-2. `PORT` - app server port
-3. `POSTGRES_DATABASE` - name of PostgreSQL database
+1. `API_HOST` - host of PostgreSQL database
+2. `API_PORT` - app server port
+3. `POSTGRES_DB` - name of PostgreSQL database
 4. `POSTGRES_PORT` - local port of PostgreSQL database
-5. `POSTGRES_USERNAME` - name of PostgreSQL user
-6. `POSTGRES_DATABASE` - password for PostgreSQL user
+5. `POSTGRES_USER` - name of PostgreSQL user
+6. `POSTGRES_PASSWORD` - password for PostgreSQL user
 7. `POSTGRES_SCHEMA` - name of PostgreSQL scheme
 
 Here's an example:
@@ -87,7 +87,6 @@ POSTGRES_DB=pro_notes
 POSTGRES_PORT=5432
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
-POSTGRES_SCHEMA=public
 ```
 
 > You may use `dotenv` util for convenient use environment variables in project
@@ -141,7 +140,7 @@ mvn clean install
 mvn spring-boot:run -Dspring-boot.run.profiles=local
 ```
 
-The app will be accessible on `http://localhost:$PORT`.
+The app will be accessible on `http://localhost:$API_PORT`.
 
 ### Running Using Docker
 1. Build and start the application using Docker Compose (use -d if u don't want to block terminal thread):
@@ -176,7 +175,7 @@ docker compose down --volumes --remove-orphans
 The **Pro Notes API** application uses Spring Boot Actuator for health monitoring.
 You can check the health status of the application by accessing the following endpoint:
 ```bash
-curl "http://localhost:$PORT/actuator/health"
+curl "http://localhost:$API_PORT/actuator/health"
 ```
 
 This will return the current health status of the application,
@@ -219,7 +218,7 @@ mvn test
 
 ### Common Issues
 - **PostgreSQL connection errors**: Ensure that PostgreSQL is running and the credentials match those in the `.env` file.
-- **Docker port conflicts**: If the port is already in use, change the `PORT` in the `.env` file.
+- **Docker port conflicts**: If the port is already in use, change the `API_PORT` in the `.env` file.
 
 ### Logs
 - View Docker logs:

@@ -6,4 +6,19 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
   liquibase:
-    enabled: false
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+  jpa:
+    open-in-view: false
+
+springdoc:
+  override-with-generic-response: false
+  swagger-ui:
+    path: /swagger-ui/index.html
+
+custom:
+  security:
+    jwt:
+      secret: ${JWT_SECRET}
+      access: ${JWT_ACCESS}
+      refresh: ${JWT_REFRESH}

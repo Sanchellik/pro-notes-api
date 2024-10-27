@@ -1,0 +1,44 @@
+[versions]
+springBoot = "3.3.4"
+dependencyManagement = "1.1.6"
+mapstruct = "1.6.2"
+checkstyle = "10.18.2"
+jjwt = "0.12.6"
+springdoc = "2.6.0"
+jacoco = "0.8.12"
+
+
+[libraries]
+# Spring boot Starters
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
+spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+
+# Database
+postgresql = { module = "org.postgresql:postgresql" }
+liquibase-core = { module = "org.liquibase:liquibase-core" }
+
+# Tools
+lombok = { module = "org.projectlombok:lombok" }
+mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
+jjwt = { module = "io.jsonwebtoken:jjwt", version.ref = "jjwt" }
+jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }
+jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }
+springdoc-openapi-starter-webmvc-ui = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
+
+# Testing
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-boot-testcontainers = { module = "org.springframework.boot:spring-boot-testcontainers" }
+testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter" }
+testcontainers-postgresql = { module = "org.testcontainers:postgresql" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+
+# Checkstyle
+checkstyle = { module = "com.puppycrawl.tools:checkstyle", version.ref = "checkstyle" }
+
+
+[plugins]
+spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
+dependency-management = { id = "io.spring.dependency-management", version.ref = "dependencyManagement" }

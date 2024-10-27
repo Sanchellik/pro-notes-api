@@ -1,7 +1,9 @@
 plugins {
     java
-    id("org.springframework.boot") version "3.3.4"
-    id("io.spring.dependency-management") version "1.1.6"
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.dependency.management)
+    id("checkstyle")
+    id("jacoco")
 }
 
 group = "ru.gozhan"
@@ -26,26 +28,102 @@ repositories {
 dependencies {
 
     // Spring boot Starters
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+    implementation(libs.spring.boot.starter.web)
+    implementation(libs.spring.boot.starter.data.jpa)
+    implementation(libs.spring.boot.starter.security)
+    implementation(libs.spring.boot.starter.validation)
 
     // Database
-    runtimeOnly("org.postgresql:postgresql")
-    implementation("org.liquibase:liquibase-core")
+    runtimeOnly(libs.postgresql)
+    implementation(libs.liquibase.core)
 
     // Tools
-    compileOnly("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
+    compileOnly(libs.lombok)
+    annotationProcessor(libs.lombok)
+
+    compileOnly(libs.mapstruct)
+    annotationProcessor(libs.mapstruct.processor)
+
+    implementation(libs.jjwt)
+    implementation(libs.jjwt.impl)
+    implementation(libs.jjwt.jackson)
+
+    implementation(libs.springdoc.openapi.starter.webmvc.ui)
 
     // Testing
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.boot:spring-boot-testcontainers")
-    testImplementation("org.testcontainers:junit-jupiter")
-    testImplementation("org.testcontainers:postgresql")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.spring.boot.testcontainers)
+    testImplementation(libs.testcontainers.junit.jupiter)
+    testImplementation(libs.testcontainers.postgresql)
+    testRuntimeOnly(libs.junit.platform.launcher)
 
+    // Checkstyle
+    checkstyle(libs.checkstyle)
+
+}
+
+checkstyle {
+    toolVersion = libs.versions.checkstyle.get()
+    configFile = file("config/checkstyle/sun_checks.xml")
+    configProperties["org.checkstyle.sun.suppressionfilter.config"] =
+        file("config/checkstyle/checkstyle-suppressions.xml").path
+
+    isIgnoreFailures = false
+}
+
+tasks.withType<Checkstyle> {
+    reports {
+        xml.required.set(false)
+        html.required.set(true)
+    }
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport, tasks.jacocoTestCoverageVerification)
+}
+
+jacoco {
+    toolVersion = libs.versions.jacoco.get()
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(false)
+        html.required.set(true)
+    }
+    classDirectories.setFrom(
+        layout.buildDirectory.dir("classes/java/main").map { mainDir ->
+            fileTree(mainDir) {
+                exclude(
+                    "**/config/**",
+                    "**/exception/**",
+                    "**/web/mapper/**",
+                    "**/*Response.class",
+                    "**/*Request.class",
+                    "**/*Dto.class",
+                    "**/*Entity.class",
+                    "**/*Properties.class",
+                )
+            }
+        }
+    )
+}
+
+tasks.jacocoTestCoverageVerification {
+    dependsOn(tasks.jacocoTestReport)
+    violationRules {
+        rule {
+            limit {
+                counter = "INSTRUCTION"
+                value = "COVEREDRATIO"
+                minimum = "0.0".toBigDecimal()
+            }
+        }
+    }
+}
+
+tasks.build {
+    dependsOn(tasks.jacocoTestCoverageVerification)
 }

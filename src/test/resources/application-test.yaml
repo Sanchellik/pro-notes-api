@@ -1,0 +1,10 @@
+logging:
+  level:
+    root: info
+
+custom:
+  security:
+    jwt:
+      secret: ${JWT_SECRET}
+      access: ${JWT_ACCESS}
+      refresh: ${JWT_REFRESH}

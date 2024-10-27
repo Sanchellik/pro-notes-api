@@ -76,6 +76,10 @@ There are environment variables:
 5. `POSTGRES_USER` - name of PostgreSQL user
 6. `POSTGRES_PASSWORD` - password for PostgreSQL user
 7. `POSTGRES_SCHEMA` - name of PostgreSQL scheme
+8. `LIQUIBASE_MIGRATION_AUTHOR` - default author name for Liquibase migrations created with scripts/liquibase/create-migration.sh
+9. `JWT_SECRET` - JWT secret for Spring Security
+10. `JWT_ACCESS` - access token lifetime in hours
+11. `JWT_REFRESH` - refresh token lifetime in days
 
 Here's an example:
 
@@ -87,6 +91,12 @@ POSTGRES_DB=pro_notes
 POSTGRES_PORT=5432
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
+
+LIQUIBASE_MIGRATION_AUTHOR=sanchellik
+
+JWT_SECRET=jwtsecret
+JWT_ACCESS=1
+JWT_REFRESH=30
 ```
 
 > You may use `dotenv` util for convenient use environment variables in project

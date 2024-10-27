@@ -28,7 +28,9 @@ dependencies {
 
     // Spring boot Starters
     implementation(libs.spring.boot.starter.web)
-    implementation(libs.spring.boot.starter.data.jdbc)
+    implementation(libs.spring.boot.starter.data.jpa)
+    implementation(libs.spring.boot.starter.security)
+    implementation(libs.spring.boot.starter.validation)
 
     // Database
     runtimeOnly(libs.postgresql)
@@ -37,8 +39,15 @@ dependencies {
     // Tools
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
+
     compileOnly(libs.mapstruct)
     annotationProcessor(libs.mapstruct.processor)
+
+    implementation(libs.jjwt)
+    implementation(libs.jjwt.impl)
+    implementation(libs.jjwt.jackson)
+
+    implementation(libs.springdoc.openapi.starter.webmvc.ui)
 
     // Testing
     testImplementation(libs.spring.boot.starter.test)

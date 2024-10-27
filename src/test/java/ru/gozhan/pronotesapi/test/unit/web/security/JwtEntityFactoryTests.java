@@ -3,19 +3,17 @@ package ru.gozhan.pronotesapi.test.unit.web.security;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.GrantedAuthority;
 import ru.gozhan.pronotesapi.domain.user.Role;
 import ru.gozhan.pronotesapi.domain.user.User;
+import ru.gozhan.pronotesapi.test.unit.AbstractUnitTest;
 import ru.gozhan.pronotesapi.web.secutiry.JwtEntity;
 import ru.gozhan.pronotesapi.web.secutiry.JwtEntityFactory;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@ExtendWith(MockitoExtension.class)
-public class JwtEntityFactoryTests {
+public class JwtEntityFactoryTests extends AbstractUnitTest {
 
     @Test
     @DisplayName("""

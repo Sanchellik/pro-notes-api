@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.dependency.management)
     id("checkstyle")
+    id("jacoco")
 }
 
 group = "ru.gozhan"
@@ -79,4 +80,50 @@ tasks.withType<Checkstyle> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport, tasks.jacocoTestCoverageVerification)
+}
+
+jacoco {
+    toolVersion = libs.versions.jacoco.get()
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(false)
+        html.required.set(true)
+    }
+    classDirectories.setFrom(
+        layout.buildDirectory.dir("classes/java/main").map { mainDir ->
+            fileTree(mainDir) {
+                exclude(
+                    "**/config/**",
+                    "**/exception/**",
+                    "**/web/mapper/**",
+                    "**/*Response.class",
+                    "**/*Request.class",
+                    "**/*Dto.class",
+                    "**/*Entity.class",
+                    "**/*Properties.class",
+                )
+            }
+        }
+    )
+}
+
+tasks.jacocoTestCoverageVerification {
+    dependsOn(tasks.jacocoTestReport)
+    violationRules {
+        rule {
+            limit {
+                counter = "INSTRUCTION"
+                value = "COVEREDRATIO"
+                minimum = "0.0".toBigDecimal()
+            }
+        }
+    }
+}
+
+tasks.build {
+    dependsOn(tasks.jacocoTestCoverageVerification)
 }

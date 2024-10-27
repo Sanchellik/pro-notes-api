@@ -78,52 +78,187 @@ tasks.withType<Checkstyle> {
     }
 }
 
+
 tasks.withType<Test> {
     useJUnitPlatform()
-    finalizedBy(tasks.jacocoTestReport, tasks.jacocoTestCoverageVerification)
 }
 
 jacoco {
     toolVersion = libs.versions.jacoco.get()
 }
 
-tasks.jacocoTestReport {
-    dependsOn(tasks.test)
-    reports {
-        xml.required.set(false)
-        html.required.set(true)
-    }
-    classDirectories.setFrom(
-        layout.buildDirectory.dir("classes/java/main").map { mainDir ->
-            fileTree(mainDir) {
-                exclude(
-                    "**/config/**",
-                    "**/exception/**",
-                    "**/web/mapper/**",
-                    "**/*Response.class",
-                    "**/*Request.class",
-                    "**/*Dto.class",
-                    "**/*Entity.class",
-                    "**/*Properties.class",
-                )
-            }
-        }
-    )
-}
+val unitTestCoverageMinimum = "0.05" // TODO must be 0.8
+val integrationTestCoverageMinimum = "0.01" // TODO must be 0.5
+val totalCoverageMinimum = "0.05" // TODO must be 0.9
 
-tasks.jacocoTestCoverageVerification {
-    dependsOn(tasks.jacocoTestReport)
+fun JacocoCoverageVerification.configureViolationRules(
+    coverageMinimum: String,
+) {
     violationRules {
         rule {
             limit {
                 counter = "INSTRUCTION"
                 value = "COVEREDRATIO"
-                minimum = "0.0".toBigDecimal()
+                minimum = coverageMinimum.toBigDecimal()
             }
         }
     }
 }
 
+val commonClassDirectories =
+    fileTree(layout.buildDirectory.dir("classes/java/main")) {
+        exclude(
+            "**/config/**",
+            "**/exception/**",
+            "**/web/mapper/**",
+            "**/*Response.class",
+            "**/*Request.class",
+            "**/*Dto.class",
+            "**/*Entity.class",
+            "**/*Properties.class",
+        )
+    }
+val commonSourceDirectories = files("src/main/java")
+
+// Unit test
+val unitTest by tasks.registering(Test::class) {
+    description = "Runs the unit tests."
+    group = "verification"
+
+    testClassesDirs = sourceSets["test"].output.classesDirs
+    classpath = sourceSets["test"].runtimeClasspath
+
+    useJUnitPlatform {
+        includeTags("unit")
+    }
+
+    finalizedBy(
+        "jacocoUnitTestReport",
+        "jacocoUnitTestCoverageVerification",
+    )
+}
+
+val unitExecutionData = layout.buildDirectory.file("jacoco/unitTest.exec")
+
+tasks.create("jacocoUnitTestReport", JacocoReport::class.java) {
+    dependsOn(unitTest)
+
+    reports {
+        xml.required.set(false)
+        html.required.set(true)
+        html.outputLocation.set(
+            layout.buildDirectory
+                .dir("reports/jacoco/unitTest/html")
+        )
+    }
+
+    classDirectories.setFrom(commonClassDirectories)
+    sourceDirectories.setFrom(commonSourceDirectories)
+    executionData.setFrom(unitExecutionData)
+}
+
+tasks.create(
+    "jacocoUnitTestCoverageVerification",
+    JacocoCoverageVerification::class.java
+) {
+    dependsOn("jacocoUnitTestReport")
+
+    configureViolationRules(unitTestCoverageMinimum)
+
+    classDirectories.setFrom(commonClassDirectories)
+    executionData.setFrom(unitExecutionData)
+}
+
+
+// Integration test
+val integrationTest by tasks.registering(Test::class) {
+    description = "Runs the integration tests."
+    group = "verification"
+
+    testClassesDirs = sourceSets["test"].output.classesDirs
+    classpath = sourceSets["test"].runtimeClasspath
+
+    useJUnitPlatform {
+        includeTags("integration")
+    }
+
+    finalizedBy(
+        "jacocoIntegrationTestReport",
+        "jacocoIntegrationTestCoverageVerification",
+    )
+}
+
+val integrationExecutionData =
+    layout.buildDirectory.file("jacoco/integrationTest.exec")
+
+tasks.create("jacocoIntegrationTestReport", JacocoReport::class.java) {
+    dependsOn(integrationTest)
+
+    reports {
+        xml.required.set(false)
+        html.required.set(true)
+        html.outputLocation.set(
+            layout.buildDirectory
+                .dir("reports/jacoco/integrationTest/html")
+        )
+    }
+
+    classDirectories.setFrom(commonClassDirectories)
+    sourceDirectories.setFrom(commonSourceDirectories)
+    executionData.setFrom(integrationExecutionData)
+}
+
+tasks.create(
+    "jacocoIntegrationTestCoverageVerification",
+    JacocoCoverageVerification::class.java
+) {
+    dependsOn("jacocoIntegrationTestReport")
+
+    configureViolationRules(integrationTestCoverageMinimum)
+
+    classDirectories.setFrom(commonClassDirectories)
+    executionData.setFrom(integrationExecutionData)
+}
+
+
+// All test
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+
+    reports {
+        xml.required.set(false)
+        html.required.set(true)
+        html.outputLocation.set(
+            layout.buildDirectory
+                .dir("reports/jacoco/test/html")
+        )
+    }
+
+    classDirectories.setFrom(commonClassDirectories)
+    sourceDirectories.setFrom(commonSourceDirectories)
+    executionData.setFrom(files(unitExecutionData, integrationExecutionData))
+}
+
+tasks.jacocoTestCoverageVerification {
+    dependsOn(tasks.jacocoTestReport)
+
+    configureViolationRules(totalCoverageMinimum)
+
+    classDirectories.setFrom(tasks.jacocoTestReport.get().classDirectories)
+    executionData.setFrom(tasks.jacocoTestReport.get().executionData)
+}
+
+tasks.test {
+    useJUnitPlatform()
+    dependsOn(unitTest, integrationTest)
+    finalizedBy("jacocoTestReport", "jacocoTestCoverageVerification")
+}
+
+
 tasks.build {
-    dependsOn(tasks.jacocoTestCoverageVerification)
+    dependsOn(
+        "jacocoUnitTestCoverageVerification",
+        "jacocoIntegrationTestCoverageVerification",
+        "jacocoTestCoverageVerification",
+    )
 }

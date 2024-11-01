@@ -52,10 +52,15 @@ dependencies {
 
     // Testing
     testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.spring.security.test)
+    testImplementation(libs.rest.assured)
     testImplementation(libs.spring.boot.testcontainers)
     testImplementation(libs.testcontainers.junit.jupiter)
     testImplementation(libs.testcontainers.postgresql)
+    testImplementation(libs.h2.database)
     testRuntimeOnly(libs.junit.platform.launcher)
+    testImplementation(libs.lombok)
+    testAnnotationProcessor(libs.lombok)
 
     // Checkstyle
     checkstyle(libs.checkstyle)
@@ -87,9 +92,9 @@ jacoco {
     toolVersion = libs.versions.jacoco.get()
 }
 
-val unitTestCoverageMinimum = "0.05" // TODO must be 0.8
-val integrationTestCoverageMinimum = "0.01" // TODO must be 0.5
-val totalCoverageMinimum = "0.05" // TODO must be 0.9
+val unitTestCoverageMinimum = "0.15" // TODO must be 0.8
+val integrationTestCoverageMinimum = "0.7" // TODO must be 0.7
+val totalCoverageMinimum = "0.7" // TODO must be 0.9
 
 fun JacocoCoverageVerification.configureViolationRules(
     coverageMinimum: String,
@@ -181,6 +186,8 @@ val integrationTest by tasks.registering(Test::class) {
     useJUnitPlatform {
         includeTags("integration")
     }
+
+    mustRunAfter(unitTest)
 
     finalizedBy(
         "jacocoIntegrationTestReport",

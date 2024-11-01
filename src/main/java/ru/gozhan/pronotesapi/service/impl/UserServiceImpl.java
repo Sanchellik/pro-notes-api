@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.gozhan.pronotesapi.domain.exception.ResourceNotFoundException;
 import ru.gozhan.pronotesapi.domain.user.Role;
 import ru.gozhan.pronotesapi.domain.user.User;
-import ru.gozhan.pronotesapi.repository.UserRepository;
+import ru.gozhan.pronotesapi.repository.UserJpaRepository;
 import ru.gozhan.pronotesapi.service.UserService;
 
 import java.util.Set;
@@ -16,7 +16,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    private final UserJpaRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -38,6 +38,7 @@ public class UserServiceImpl implements UserService {
     public User update(final User user) {
         User existing = getById(user.getId());
         existing.setName(user.getName());
+
         user.setUsername(user.getUsername());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);

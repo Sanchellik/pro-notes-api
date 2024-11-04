@@ -155,10 +155,7 @@ val unitTest by tasks.registering(Test::class) {
         includeTags("unit")
     }
 
-    finalizedBy(
-        "jacocoUnitTestReport",
-        "jacocoUnitTestCoverageVerification",
-    )
+    finalizedBy("jacocoUnitTestReport")
 }
 
 val unitExecutionData = layout.buildDirectory.file("jacoco/unitTest.exec")
@@ -205,12 +202,7 @@ val integrationTest by tasks.registering(Test::class) {
         includeTags("integration")
     }
 
-    mustRunAfter(unitTest)
-
-    finalizedBy(
-        "jacocoIntegrationTestReport",
-        "jacocoIntegrationTestCoverageVerification",
-    )
+    finalizedBy("jacocoIntegrationTestReport")
 }
 
 val integrationExecutionData =
@@ -247,6 +239,12 @@ tasks.create(
 
 
 // All test
+tasks.test {
+    useJUnitPlatform()
+}
+
+val testExecutionData = layout.buildDirectory.file("jacoco/test.exec")
+
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
 
@@ -261,7 +259,7 @@ tasks.jacocoTestReport {
 
     classDirectories.setFrom(commonClassDirectories)
     sourceDirectories.setFrom(commonSourceDirectories)
-    executionData.setFrom(files(unitExecutionData, integrationExecutionData))
+    executionData.setFrom(testExecutionData)
 }
 
 tasks.jacocoTestCoverageVerification {
@@ -273,17 +271,7 @@ tasks.jacocoTestCoverageVerification {
     executionData.setFrom(tasks.jacocoTestReport.get().executionData)
 }
 
-tasks.test {
-    useJUnitPlatform()
-    dependsOn(unitTest, integrationTest)
-    finalizedBy("jacocoTestReport", "jacocoTestCoverageVerification")
-}
-
 
 tasks.build {
-    dependsOn(
-        "jacocoUnitTestCoverageVerification",
-        "jacocoIntegrationTestCoverageVerification",
-        "jacocoTestCoverageVerification",
-    )
+    dependsOn("jacocoTestCoverageVerification")
 }

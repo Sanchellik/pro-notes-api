@@ -1,11 +1,12 @@
 [versions]
-springBoot = "3.3.4"
+springBoot = "3.3.5"
 dependencyManagement = "1.1.6"
 mapstruct = "1.6.2"
 checkstyle = "10.18.2"
 jjwt = "0.12.6"
 springdoc = "2.6.0"
 jacoco = "0.8.12"
+restAssuredVersion = "5.5.0"
 
 
 [libraries]
@@ -30,9 +31,12 @@ springdoc-openapi-starter-webmvc-ui = { module = "org.springdoc:springdoc-openap
 
 # Testing
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+rest-assured = { module = "io.rest-assured:rest-assured", version.ref = "restAssuredVersion" }
+spring-security-test = { module = "org.springframework.security:spring-security-test" }
 spring-boot-testcontainers = { module = "org.springframework.boot:spring-boot-testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter" }
 testcontainers-postgresql = { module = "org.testcontainers:postgresql" }
+h2-database = { module = "com.h2database:h2" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 
 # Checkstyle

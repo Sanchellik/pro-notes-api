@@ -51,8 +51,10 @@ public class JwtTokenProvider {
                 .add("id", userId)
                 .add("roles", resolveRoles(roles))
                 .build();
+
         Instant validity = Instant.now()
                 .plus(jwtProperties.getAccess(), ChronoUnit.HOURS);
+
         return Jwts.builder()
                 .claims(claims)
                 .expiration(Date.from(validity))
@@ -76,8 +78,10 @@ public class JwtTokenProvider {
                 .subject(username)
                 .add("id", userId)
                 .build();
+
         Instant validity = Instant.now()
                 .plus(jwtProperties.getRefresh(), ChronoUnit.DAYS);
+
         return Jwts.builder()
                 .claims(claims)
                 .expiration(Date.from(validity))
@@ -93,7 +97,7 @@ public class JwtTokenProvider {
             throw new AccessDeniedException();
         }
 
-        Long userId = Long.valueOf(getId(refreshToken));
+        Long userId = getId(refreshToken);
         User user = userService.getById(userId);
 
         jwtResponse.setId(userId);
@@ -120,7 +124,7 @@ public class JwtTokenProvider {
                 .after(new Date());
     }
 
-    private String getId(
+    private Long getId(
             final String token
     ) {
         return Jwts.parser()
@@ -128,7 +132,7 @@ public class JwtTokenProvider {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
-                .get("id", String.class);
+                .get("id", Long.class);
     }
 
     private String getUsername(

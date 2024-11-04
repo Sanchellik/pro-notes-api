@@ -13,13 +13,13 @@ import ru.gozhan.pronotesapi.web.secutiry.JwtEntityFactory;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class JwtEntityFactoryTests extends AbstractUnitTest {
+public class JwtEntityFactoryTest extends AbstractUnitTest {
 
     @Test
     @DisplayName("""
             Method create().
             Test creating JwtEntity from User.""")
-    public void givenUserWhenCreateThenJwtEntity() {
+    void givenUserWhenCreateThenJwtEntity() {
         // given
         User user = new User();
         user.setId(1L);
@@ -47,6 +47,7 @@ public class JwtEntityFactoryTests extends AbstractUnitTest {
                         user.getRoles().stream()
                                 .map(Role::name)
                                 .collect(Collectors.toSet()),
+
                         jwtEntity.getAuthorities().stream()
                                 .map(GrantedAuthority::getAuthority)
                                 .collect(Collectors.toSet()),

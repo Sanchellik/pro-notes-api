@@ -2,6 +2,7 @@ package ru.gozhan.pronotesapi.web.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,12 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.gozhan.pronotesapi.domain.user.User;
 import ru.gozhan.pronotesapi.service.AuthService;
 import ru.gozhan.pronotesapi.service.UserService;
+import ru.gozhan.pronotesapi.web.dto.JwtRefreshRequest;
 import ru.gozhan.pronotesapi.web.dto.JwtRequest;
 import ru.gozhan.pronotesapi.web.dto.JwtResponse;
 import ru.gozhan.pronotesapi.web.dto.UserDto;
 import ru.gozhan.pronotesapi.web.dto.validation.OnCreate;
 import ru.gozhan.pronotesapi.web.mapper.UserMapper;
 
+@Slf4j
 @RestController
 @RequestMapping("pro-notes/api/v1/auth")
 @RequiredArgsConstructor
@@ -48,9 +51,9 @@ public class AuthController {
 
     @PostMapping("/refresh")
     public JwtResponse refresh(
-            @RequestBody final String refreshToken
+            @Validated @RequestBody final JwtRefreshRequest jwtRefreshRequest
     ) {
-        return authService.refresh(refreshToken);
+        return authService.refresh(jwtRefreshRequest.getRefreshToken());
     }
 
 }

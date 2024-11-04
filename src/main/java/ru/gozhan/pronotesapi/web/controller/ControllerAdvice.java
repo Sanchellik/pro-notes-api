@@ -1,8 +1,10 @@
 package ru.gozhan.pronotesapi.web.controller;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -36,6 +38,14 @@ public class ControllerAdvice {
         return new ExceptionBody(e.getMessage());
     }
 
+    @ExceptionHandler(ExpiredJwtException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ExceptionBody handleExpiredJwtException(
+            final ExpiredJwtException e
+    ) {
+        return new ExceptionBody("Token expired. Please log in again.");
+    }
+
     @ExceptionHandler({
             AccessDeniedException.class,
             org.springframework.security.access.AccessDeniedException.class
@@ -57,12 +67,20 @@ public class ControllerAdvice {
                         FieldError::getField,
                         fieldError -> Optional.ofNullable(
                                 fieldError.getDefaultMessage())
-                                .orElse("No message provided"),
+                                .orElse("No message provided."),
                         (existingMessage, newMessage) ->
                                 existingMessage + " " + newMessage
                         ))
         );
         return exceptionBody;
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionBody handleHttpMessageNotReadableException(
+            final HttpMessageNotReadableException e
+    ) {
+        return new ExceptionBody("Request body is missing.");
     }
 
     @ExceptionHandler(ConstraintViolationException.class)

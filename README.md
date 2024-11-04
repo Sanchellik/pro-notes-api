@@ -69,8 +69,8 @@ Before you start, ensure that the following dependencies are installed:
 ### Environment Variables
 You'll need a `.env` file for environment-specific configuration.
 There are environment variables:
-1. `API_HOST` - host of PostgreSQL database
-2. `API_PORT` - app server port
+1. `SERVICE_HOST` - app server host
+2. `SERVICE_PORT` - app server port
 3. `POSTGRES_DB` - name of PostgreSQL database
 4. `POSTGRES_PORT` - local port of PostgreSQL database
 5. `POSTGRES_USER` - name of PostgreSQL user
@@ -84,8 +84,8 @@ There are environment variables:
 Here's an example:
 
 ```dotenv
-API_HOST=localhost
-API_PORT=8080
+SERVICE_HOST=localhost
+SERVICE_PORT=8080
 
 POSTGRES_DB=pro_notes
 POSTGRES_PORT=5432

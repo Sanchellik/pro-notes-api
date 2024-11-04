@@ -37,12 +37,18 @@ dependencies {
     runtimeOnly(libs.postgresql)
     implementation(libs.liquibase.core)
 
-    // Tools
+    //// Tools
+    // Lombok
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
+    testImplementation(libs.lombok)
+    testAnnotationProcessor(libs.lombok)
 
+    // Mapstruct
     compileOnly(libs.mapstruct)
     annotationProcessor(libs.mapstruct.processor)
+    testImplementation(libs.mapstruct)
+    testAnnotationProcessor(libs.mapstruct.processor)
 
     implementation(libs.jjwt)
     implementation(libs.jjwt.impl)
@@ -59,8 +65,6 @@ dependencies {
     testImplementation(libs.testcontainers.postgresql)
     testImplementation(libs.h2.database)
     testRuntimeOnly(libs.junit.platform.launcher)
-    testImplementation(libs.lombok)
-    testAnnotationProcessor(libs.lombok)
 
     // Checkstyle
     checkstyle(libs.checkstyle)
@@ -92,9 +96,9 @@ jacoco {
     toolVersion = libs.versions.jacoco.get()
 }
 
-val unitTestCoverageMinimum = "0.15" // TODO must be 0.8
-val integrationTestCoverageMinimum = "0.7" // TODO must be 0.7
-val totalCoverageMinimum = "0.7" // TODO must be 0.9
+val unitTestCoverageMinimum = "0.8"
+val integrationTestCoverageMinimum = "0.7"
+val totalCoverageMinimum = "0.7"
 
 fun JacocoCoverageVerification.configureViolationRules(
     coverageMinimum: String,
@@ -121,8 +125,22 @@ val commonClassDirectories =
             "**/*Dto.class",
             "**/*Entity.class",
             "**/*Properties.class",
+            "**/*Application.class",
         )
     }
+
+val unitTestClassDirectories = commonClassDirectories.matching {
+    exclude(
+        "**/web/controller/ControllerAdvice.class",
+    )
+}
+
+val integrationTestClassDirectories = commonClassDirectories.matching {
+    exclude(
+
+    )
+}
+
 val commonSourceDirectories = files("src/main/java")
 
 // Unit test
@@ -157,7 +175,7 @@ tasks.create("jacocoUnitTestReport", JacocoReport::class.java) {
         )
     }
 
-    classDirectories.setFrom(commonClassDirectories)
+    classDirectories.setFrom(unitTestClassDirectories)
     sourceDirectories.setFrom(commonSourceDirectories)
     executionData.setFrom(unitExecutionData)
 }
@@ -170,7 +188,7 @@ tasks.create(
 
     configureViolationRules(unitTestCoverageMinimum)
 
-    classDirectories.setFrom(commonClassDirectories)
+    classDirectories.setFrom(unitTestClassDirectories)
     executionData.setFrom(unitExecutionData)
 }
 
@@ -210,7 +228,7 @@ tasks.create("jacocoIntegrationTestReport", JacocoReport::class.java) {
         )
     }
 
-    classDirectories.setFrom(commonClassDirectories)
+    classDirectories.setFrom(integrationTestClassDirectories)
     sourceDirectories.setFrom(commonSourceDirectories)
     executionData.setFrom(integrationExecutionData)
 }
@@ -223,7 +241,7 @@ tasks.create(
 
     configureViolationRules(integrationTestCoverageMinimum)
 
-    classDirectories.setFrom(commonClassDirectories)
+    classDirectories.setFrom(integrationTestClassDirectories)
     executionData.setFrom(integrationExecutionData)
 }
 

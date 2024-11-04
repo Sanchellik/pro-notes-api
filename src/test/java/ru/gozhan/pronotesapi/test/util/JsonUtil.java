@@ -61,4 +61,8 @@ public class JsonUtil {
         }
     }
 
+    public static String toJson(final Object object) {
+        return toJsonWithNulls(object);
+    }
+
 }

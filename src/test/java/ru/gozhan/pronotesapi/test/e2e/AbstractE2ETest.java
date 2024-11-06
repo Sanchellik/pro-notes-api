@@ -1,4 +1,4 @@
-package ru.gozhan.pronotesapi.test.it;
+package ru.gozhan.pronotesapi.test.e2e;
 
 import io.restassured.RestAssured;
 import io.restassured.config.LogConfig;
@@ -9,15 +9,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import ru.gozhan.pronotesapi.test.it.config.TestcontainersConfiguration;
+import ru.gozhan.pronotesapi.test.e2e.config.TestcontainersConfig;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import({
-        TestcontainersConfiguration.class,
+        TestcontainersConfig.class,
 })
 @ActiveProfiles("test")
-@Tag("integration")
-public abstract class AbstractIntegrationTest {
+@Tag("e2e")
+public abstract class AbstractE2ETest {
 
     @LocalServerPort
     private int port;

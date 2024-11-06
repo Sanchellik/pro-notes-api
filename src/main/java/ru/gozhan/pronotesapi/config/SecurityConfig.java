@@ -82,7 +82,7 @@ public class SecurityConfig {
                                 .requestMatchers("/v3/api-docs/**")
                                 .permitAll()
                                 .anyRequest()
-                                .authenticated())
+                                .permitAll()) // TODO must be authenticated()
                 .anonymous(AbstractHttpConfigurer::disable)
                 .addFilterBefore(
                         new JwtTokenFilter(jwtTokenProvider),

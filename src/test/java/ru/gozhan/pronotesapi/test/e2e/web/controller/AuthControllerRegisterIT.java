@@ -1,4 +1,4 @@
-package ru.gozhan.pronotesapi.test.it.web.controller;
+package ru.gozhan.pronotesapi.test.e2e.web.controller;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -12,12 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 import ru.gozhan.pronotesapi.test.constant.ApiEndpoint;
 import ru.gozhan.pronotesapi.test.data.UserDtoBuilder;
-import ru.gozhan.pronotesapi.test.it.AbstractIntegrationTest;
+import ru.gozhan.pronotesapi.test.e2e.AbstractE2ETest;
 import ru.gozhan.pronotesapi.test.provider.InvalidOnCreateUserDtoProvider;
 import ru.gozhan.pronotesapi.test.util.JsonUtil;
 import ru.gozhan.pronotesapi.web.dto.UserDto;
 
-public class AuthControllerRegisterIT extends AbstractIntegrationTest {
+public class AuthControllerRegisterIT extends AbstractE2ETest {
 
     @Nested
     class SuccessScenarios {

@@ -15,8 +15,6 @@ spring:
 
 springdoc:
   override-with-generic-response: false
-  swagger-ui:
-    path: /swagger-ui/index.html
 
 custom:
   security:

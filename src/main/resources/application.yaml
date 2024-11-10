@@ -10,6 +10,8 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.yaml
   jpa:
     open-in-view: false
+    hibernate:
+      ddl-auto: validate
 
 springdoc:
   override-with-generic-response: false

@@ -1,5 +1,6 @@
 package ru.gozhan.pronotesapi.web.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.gozhan.pronotesapi.config.openapi.NoteView;
 import ru.gozhan.pronotesapi.domain.note.Note;
 import ru.gozhan.pronotesapi.service.NoteService;
 import ru.gozhan.pronotesapi.web.dto.NoteDto;
@@ -37,6 +39,7 @@ public class NoteController {
 
     @GetMapping
     @Operation(summary = "Get all notes of the authenticated user without content")
+    @JsonView(NoteView.Summary.class)
     public ResponseEntity<List<NoteDto>> getAllNotes(
             final Authentication authentication
     ) {
@@ -50,6 +53,7 @@ public class NoteController {
 
     @GetMapping("/{noteId}")
     @Operation(summary = "Get a specific note by noteId with content")
+    @JsonView(NoteView.Detail.class)
     public ResponseEntity<NoteDto> getNoteById(
             @PathVariable final Long noteId
     ) {
@@ -62,7 +66,7 @@ public class NoteController {
     @PostMapping
     @Operation(summary = "Create a new note for the authenticated user")
     public ResponseEntity<NoteDto> createNote(
-            @Validated @RequestBody final NoteDto noteDto,
+            @Validated @RequestBody @JsonView(NoteView.Create.class) final NoteDto noteDto,
             final Authentication authentication
     ) {
         Long userId = ((JwtEntity) authentication.getPrincipal()).getId();
@@ -79,7 +83,7 @@ public class NoteController {
     @Operation(summary = "Update a specific note by noteId")
     public ResponseEntity<NoteDto> updateNote(
             @PathVariable final Long noteId,
-            @Validated @RequestBody final NoteDto noteDto,
+            @Validated @RequestBody @JsonView(NoteView.Update.class) final NoteDto noteDto,
             final Authentication authentication
     ) {
         Long userId = ((JwtEntity) authentication.getPrincipal()).getId();

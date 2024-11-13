@@ -1,4 +1,4 @@
-package ru.gozhan.pronotesapi.config;
+package ru.gozhan.pronotesapi.config.openapi;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

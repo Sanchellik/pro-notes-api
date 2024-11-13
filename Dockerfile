@@ -8,6 +8,7 @@ RUN --mount=type=cache,target=/root/.gradle \
     -x checkstyleTest \
     -x jacocoUnitTestCoverageVerification \
     -x jacocoIntegrationTestCoverageVerification \
+    -x jacocoE2ETestCoverageVerification \
     -x jacocoTestCoverageVerification
 
 FROM bellsoft/liberica-openjre-alpine:21 AS layers

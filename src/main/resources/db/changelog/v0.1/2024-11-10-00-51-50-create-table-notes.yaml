@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-11-10-00-51-50-create-table-notes
+      author: sanchellik
+      changes:
+        - createTable:
+            tableName: notes
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: content
+                  type: TEXT
+
+        - addForeignKeyConstraint:
+            baseTableName: notes
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk__notes__user_id__id__users
+
+      rollback:
+        - dropTable:
+            tableName: notes

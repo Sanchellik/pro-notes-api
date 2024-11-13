@@ -1,4 +1,4 @@
-package ru.gozhan.pronotesapi.test.it.web.controller;
+package ru.gozhan.pronotesapi.test.e2e.web.controller;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -10,10 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 import ru.gozhan.pronotesapi.test.constant.ApiEndpoint;
 import ru.gozhan.pronotesapi.test.constant.TokenConstant;
-import ru.gozhan.pronotesapi.test.it.AbstractIntegrationTest;
+import ru.gozhan.pronotesapi.test.e2e.AbstractE2ETest;
 import ru.gozhan.pronotesapi.web.dto.JwtRefreshRequest;
 
-public class AuthControllerRefreshIT extends AbstractIntegrationTest {
+public class AuthControllerRefreshIT extends AbstractE2ETest {
 
     @Nested
     class SuccessScenarios {

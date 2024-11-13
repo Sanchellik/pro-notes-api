@@ -1,4 +1,4 @@
-package ru.gozhan.pronotesapi.test.it.config;
+package ru.gozhan.pronotesapi.test.e2e.config;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
@@ -7,15 +7,14 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 @TestConfiguration(proxyBeanMethods = false)
-public class TestcontainersConfiguration {
+public class TestcontainersConfig {
 
     @Bean
     @ServiceConnection
-    @SuppressWarnings("resource")
     PostgreSQLContainer<?> postgresContainer() {
         return new PostgreSQLContainer<>(
                 DockerImageName.parse("postgres:latest")
-        ).withReuse(true);
+        );
     }
 
 }

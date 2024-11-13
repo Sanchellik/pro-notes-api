@@ -97,7 +97,8 @@ jacoco {
 }
 
 val unitTestCoverageMinimum = "0.8"
-val integrationTestCoverageMinimum = "0.7"
+val e2eTestCoverageMinimum = "0.7"
+val integrationTestCoverageMinimum = "0.0" // TODO fix after creating tests
 val totalCoverageMinimum = "0.7"
 
 fun JacocoCoverageVerification.configureViolationRules(
@@ -132,6 +133,12 @@ val commonClassDirectories =
 val unitTestClassDirectories = commonClassDirectories.matching {
     exclude(
         "**/web/controller/ControllerAdvice.class",
+    )
+}
+
+val e2eTestClassDirectories = commonClassDirectories.matching {
+    exclude(
+
     )
 }
 
@@ -187,6 +194,53 @@ tasks.create(
 
     classDirectories.setFrom(unitTestClassDirectories)
     executionData.setFrom(unitExecutionData)
+}
+
+
+// E2E test
+val e2eTest by tasks.registering(Test::class) {
+    description = "Runs the e2e tests."
+    group = "verification"
+
+    testClassesDirs = sourceSets["test"].output.classesDirs
+    classpath = sourceSets["test"].runtimeClasspath
+
+    useJUnitPlatform {
+        includeTags("e2e")
+    }
+
+    finalizedBy("jacocoE2ETestReport")
+}
+
+val e2eExecutionData = layout.buildDirectory.file("jacoco/e2eTest.exec")
+
+tasks.create("jacocoE2ETestReport", JacocoReport::class.java) {
+    dependsOn(e2eTest)
+
+    reports {
+        xml.required.set(false)
+        html.required.set(true)
+        html.outputLocation.set(
+            layout.buildDirectory
+                .dir("reports/jacoco/e2eTest/html")
+        )
+    }
+
+    classDirectories.setFrom(e2eTestClassDirectories)
+    sourceDirectories.setFrom(commonSourceDirectories)
+    executionData.setFrom(e2eExecutionData)
+}
+
+tasks.create(
+    "jacocoE2ETestCoverageVerification",
+    JacocoCoverageVerification::class.java
+) {
+    dependsOn("jacocoE2ETestReport")
+
+    configureViolationRules(e2eTestCoverageMinimum)
+
+    classDirectories.setFrom(e2eTestClassDirectories)
+    executionData.setFrom(e2eExecutionData)
 }
 
 

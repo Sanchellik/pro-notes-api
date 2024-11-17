@@ -16,10 +16,10 @@ import ru.gozhan.pronotesapi.service.AuthService;
 import ru.gozhan.pronotesapi.service.UserService;
 import ru.gozhan.pronotesapi.test.constant.ApiEndpoint;
 import ru.gozhan.pronotesapi.test.constant.TokenConstant;
-import ru.gozhan.pronotesapi.test.data.JwtRequestBuilder;
-import ru.gozhan.pronotesapi.test.data.JwtResponseBuilder;
-import ru.gozhan.pronotesapi.test.data.UserBuilder;
-import ru.gozhan.pronotesapi.test.data.UserDtoBuilder;
+import ru.gozhan.pronotesapi.test.data.builder.JwtRequestBuilder;
+import ru.gozhan.pronotesapi.test.data.builder.JwtResponseBuilder;
+import ru.gozhan.pronotesapi.test.data.builder.UserBuilder;
+import ru.gozhan.pronotesapi.test.data.builder.UserDtoBuilder;
 import ru.gozhan.pronotesapi.test.unit.AbstractUnitTest;
 import ru.gozhan.pronotesapi.test.util.JsonUtil;
 import ru.gozhan.pronotesapi.test.util.MockMvcUtil;
@@ -55,7 +55,7 @@ public class AuthControllerTest extends AbstractUnitTest {
 
     @Test
     @DisplayName("""
-            API Endpoint /login.
+            API Endpoint POST /login.
             Given correct JwtRequest.
             Then returns JwtResponse.
             """)
@@ -88,7 +88,7 @@ public class AuthControllerTest extends AbstractUnitTest {
 
     @Test
     @DisplayName("""
-            API Endpoint /register.
+            API Endpoint POST /register.
             Given correct UserDto.
             Then returns UserDto.
             """)
@@ -137,7 +137,7 @@ public class AuthControllerTest extends AbstractUnitTest {
 
     @Test
     @DisplayName("""
-            API Endpoint /refresh.
+            API Endpoint POST /refresh.
             Given JwtRefreshRequest.
             Then returns JwtResponse.
             """)

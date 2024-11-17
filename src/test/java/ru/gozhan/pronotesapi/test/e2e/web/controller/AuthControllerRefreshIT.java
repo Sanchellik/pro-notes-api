@@ -31,7 +31,7 @@ public class AuthControllerRefreshIT extends AbstractE2ETest {
                 executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD
         )
         @DisplayName("""
-            API Endpoint /refresh.
+            API Endpoint POST /refresh.
             Given valid refreshToken.
             Then return 200 OK.
             """)
@@ -80,7 +80,7 @@ public class AuthControllerRefreshIT extends AbstractE2ETest {
                 executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD
         )
         @DisplayName("""
-            API Endpoint /refresh.
+            API Endpoint POST /refresh.
             Given expired refreshToken.
             Then return 401 UNAUTHORIZED.
             """)

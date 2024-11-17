@@ -1,4 +1,4 @@
-package ru.gozhan.pronotesapi.test.data;
+package ru.gozhan.pronotesapi.test.data.builder;
 
 import ru.gozhan.pronotesapi.domain.user.Role;
 import ru.gozhan.pronotesapi.domain.user.User;

@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 import ru.gozhan.pronotesapi.test.constant.ApiEndpoint;
-import ru.gozhan.pronotesapi.test.data.UserDtoBuilder;
+import ru.gozhan.pronotesapi.test.data.builder.UserDtoBuilder;
 import ru.gozhan.pronotesapi.test.e2e.AbstractE2ETest;
 import ru.gozhan.pronotesapi.test.provider.InvalidOnCreateUserDtoProvider;
 import ru.gozhan.pronotesapi.test.util.JsonUtil;

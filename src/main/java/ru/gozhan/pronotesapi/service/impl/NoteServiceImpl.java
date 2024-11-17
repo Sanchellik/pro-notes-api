@@ -25,7 +25,7 @@ public class NoteServiceImpl implements NoteService {
     public Note getById(final Long id) {
         return noteJpaRepository.findById(id)
                 .orElseThrow(
-                        () -> new ResourceNotFoundException("Note note found.")
+                        () -> new ResourceNotFoundException("Note not found.")
                 );
     }
 
@@ -38,8 +38,7 @@ public class NoteServiceImpl implements NoteService {
     @Override
     @Transactional
     public Note update(final Note note) {
-        Note existingNote = noteJpaRepository.findById(note.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Note not found"));
+        Note existingNote = getById(note.getId());
 
         existingNote.setTitle(note.getTitle());
         existingNote.setContent(note.getContent());
@@ -51,7 +50,7 @@ public class NoteServiceImpl implements NoteService {
     @Transactional
     public void delete(final Long id) {
         if (!noteJpaRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Note not found");
+            throw new ResourceNotFoundException("Note not found.");
         }
         noteJpaRepository.deleteById(id);
     }

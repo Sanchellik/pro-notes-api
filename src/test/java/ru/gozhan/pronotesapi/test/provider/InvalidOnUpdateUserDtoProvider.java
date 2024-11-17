@@ -3,7 +3,7 @@ package ru.gozhan.pronotesapi.test.provider;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
-import ru.gozhan.pronotesapi.test.data.UserDtoBuilder;
+import ru.gozhan.pronotesapi.test.data.builder.UserDtoBuilder;
 import ru.gozhan.pronotesapi.test.util.StringGeneratorUtil;
 
 import java.util.stream.Stream;

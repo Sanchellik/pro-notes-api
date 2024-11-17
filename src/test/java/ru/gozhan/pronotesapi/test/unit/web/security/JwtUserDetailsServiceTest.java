@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import ru.gozhan.pronotesapi.domain.user.User;
 import ru.gozhan.pronotesapi.service.UserService;
-import ru.gozhan.pronotesapi.test.data.UserBuilder;
+import ru.gozhan.pronotesapi.test.data.builder.UserBuilder;
 import ru.gozhan.pronotesapi.test.unit.AbstractUnitTest;
 import ru.gozhan.pronotesapi.web.secutiry.JwtEntity;
 import ru.gozhan.pronotesapi.web.secutiry.JwtUserDetailsService;

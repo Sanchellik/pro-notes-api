@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.gozhan.pronotesapi.service.GigaChatService;
-import ru.gozhan.pronotesapi.web.dto.GigaChatRequest;
-import ru.gozhan.pronotesapi.web.dto.GigaChatResponse;
+import ru.gozhan.pronotesapi.web.dto.gigachatapi.GigaChatRequest;
+import ru.gozhan.pronotesapi.web.dto.gigachatapi.GigaChatResponse;
 
 @RestController
 @RequestMapping("pro-notes/api/v1/chat/giga-chat")
@@ -24,7 +24,15 @@ public class GigaChatController {
     public ResponseEntity<GigaChatResponse> createChat(
             @Validated @RequestBody final GigaChatRequest request
     ) {
-        return ResponseEntity.ok(new GigaChatResponse()); // TODO do it
+        log.info("""
+                Request /pro-notes/api/v1/chat/giga-chat, \
+                params: GigaChatRequest = {}""",
+                request
+        );
+
+        GigaChatResponse response = gigaChatService.sendRequestAndGetResponse(request);
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/mock")
@@ -38,6 +46,7 @@ public class GigaChatController {
         );
 
         GigaChatResponse response = gigaChatService.mock(request);
+
         return ResponseEntity.ok(response);
     }
 

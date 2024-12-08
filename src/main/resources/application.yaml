@@ -22,3 +22,7 @@ custom:
       secret: ${JWT_SECRET}
       access: ${JWT_ACCESS}
       refresh: ${JWT_REFRESH}
+  integrations:
+    giga-chat:
+      xClientId: ${GIGA_CHAT_X_CLIENT_ID}
+      authorizationToken: ${GIGA_CHAT_API_AUTHORIZATION_TOKEN}

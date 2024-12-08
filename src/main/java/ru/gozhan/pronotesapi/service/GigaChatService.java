@@ -1,7 +1,7 @@
 package ru.gozhan.pronotesapi.service;
 
-import ru.gozhan.pronotesapi.web.dto.GigaChatRequest;
-import ru.gozhan.pronotesapi.web.dto.GigaChatResponse;
+import ru.gozhan.pronotesapi.web.dto.gigachatapi.GigaChatRequest;
+import ru.gozhan.pronotesapi.web.dto.gigachatapi.GigaChatResponse;
 
 public interface GigaChatService {
 

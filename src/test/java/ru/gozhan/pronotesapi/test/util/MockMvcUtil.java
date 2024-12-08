@@ -29,7 +29,7 @@ public class MockMvcUtil {
                     ));
 
             String requestBody = result.getRequest().getContentAsString();
-            if (!requestBody.isEmpty()) {
+            if (requestBody != null && !requestBody.isEmpty()) {
                 String prettyRequestBody = mapper.writerWithDefaultPrettyPrinter()
                         .writeValueAsString(mapper.readTree(requestBody));
                 System.out.println("Formatted Request Body:\n" + prettyRequestBody);
@@ -37,7 +37,7 @@ public class MockMvcUtil {
                 System.out.println("Request Body: (empty)");
             }
 
-            System.out.println("---- Response ----");
+            System.out.println("\n---- Response ----");
             System.out.println("Response Status: " + result.getResponse().getStatus());
             System.out.println("Response Headers: ");
             result.getResponse()

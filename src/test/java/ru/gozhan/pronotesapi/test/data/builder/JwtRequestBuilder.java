@@ -1,4 +1,4 @@
-package ru.gozhan.pronotesapi.test.data;
+package ru.gozhan.pronotesapi.test.data.builder;
 
 import ru.gozhan.pronotesapi.web.dto.JwtRequest;
 

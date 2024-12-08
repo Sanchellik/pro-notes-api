@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 import ru.gozhan.pronotesapi.test.constant.ApiEndpoint;
-import ru.gozhan.pronotesapi.test.data.JwtRequestBuilder;
+import ru.gozhan.pronotesapi.test.data.builder.JwtRequestBuilder;
 import ru.gozhan.pronotesapi.test.e2e.AbstractE2ETest;
 import ru.gozhan.pronotesapi.web.dto.JwtRequest;
 

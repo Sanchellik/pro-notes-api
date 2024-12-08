@@ -125,7 +125,7 @@ public class AuthControllerValidationTest extends AbstractUnitTest {
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     @DisplayName("""
-            API Endpoint /refresh.
+            API Endpoint POST /refresh.
             Test JwtRefreshRequest validation.
             """)
     @SneakyThrows
